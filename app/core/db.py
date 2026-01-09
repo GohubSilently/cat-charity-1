@@ -17,10 +17,10 @@ class CommonMixin:
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     full_amount: Mapped[int] = mapped_column(Integer)
-    invested_amount: Mapped[int] = mapped_column(Integer)
+    invested_amount: Mapped[int] = mapped_column(Integer, default=0)
     fully_invested: Mapped[bool] = mapped_column(Boolean, default=False)
-    created_date: Mapped[datetime] = mapped_column(DateTime)
-    close_date: Mapped[datetime] = mapped_column(DateTime)
+    create_date: Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
+    close_date: Mapped[datetime] = mapped_column(DateTime, nullable=True)
 
 
 class Base(DeclarativeBase):

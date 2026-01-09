@@ -1,9 +1,9 @@
-import datetime
+from datetime import datetime
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 
-class CharityBase(BaseModel):
+class CharityProjectCreate(BaseModel):
     name: str = Field(
         min_length=5,
         max_length=100,
@@ -11,20 +11,27 @@ class CharityBase(BaseModel):
     description: str = Field(
         min_length=10,
     )
-    full_amount: int = Field()
+    full_amount: int = Field(gt=0)
+
+    model_config = ConfigDict(extra='forbid')
 
 
-
-class CharityProjectDB(CharityBase):
+class CharityProjectDB(CharityProjectCreate):
     id: int
-    invested_amount: int = Field()
-    fully_invested: bool = Field(False)
-    created_at: datetime
-    close_date: datetime = Field(None)
+    invested_amount: int
+    fully_invested: bool
+    create_date: datetime
+    close_date: datetime | None = None
 
 
-class CharityProjectCreate(CharityBase):
-    pass
-
-class CharityProjectUpdate(CharityBase):
-    pass
+class CharityProjectUpdate(CharityProjectCreate):
+    name: str | None = Field(
+        min_length=5,
+        max_length=100,
+        default=None
+    )
+    description: str | None = Field(
+        min_length=10,
+        default=None
+    )
+    full_amount: int | None = Field(gt=0, default=None)
