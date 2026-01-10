@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -24,7 +22,6 @@ class CRUDBase:
         await allocate_donations(session)
         await session.commit()
         return db_object
-
 
     async def update(self, db_object, object_in, session: AsyncSession):
         obj_data = jsonable_encoder(db_object)
