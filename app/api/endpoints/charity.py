@@ -4,7 +4,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.api.endpoints.validators import (
+from app.api.validators import (
     check_charity_project_exists, check_unique_name, check_full_amount
 )
 from app.core.db import get_async_session

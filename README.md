@@ -12,41 +12,11 @@ pip install --upgrade pip && pip install -r requirements.tx
 3. Запуск миграций
 ```
 alembic init
-```
-
-4. Подготовка alembic env.py
-```
-import asyncio
-import os
-from logging.config import fileConfig
-
-from dotenv import load_dotenv
-from sqlalchemy import engine_from_config
-from sqlalchemy import pool
-from sqlalchemy.ext.asyncio import AsyncEngine
-
-from alembic import context
-
-from app.core.base import Base
-
-
-load_dotenv()
-
-config = context.config
-
-config.set_main_option("sqlalchemy.url", os.environ.get("DATABASE_URL"))
-if config.config_file_name is not None:
-    fileConfig(config.config_file_name)
-target_metadata = Base.metadata
-```
-
-5. Применение миграций
-```
-alembic revision --autogenerate -m "First migration"
+alembic revision --autogenerate -m "Add charity and donation models"
 alembic upgrade head
 ```
 
-6. Файл .env
+4. Файл .env
 ```
 APP_TITLE=Благотворительный фонд поддержки котиков QRKot
 APP_DESCRIPTION=Сервис для поддержки котиков
