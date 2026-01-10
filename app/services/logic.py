@@ -12,7 +12,7 @@ async def allocate_donations(session: AsyncSession):
         select(
             CharityProject
         ).where(
-            CharityProject.fully_invested is False
+            CharityProject.fully_invested == False
         ).order_by(
             CharityProject.create_date
         )
@@ -21,7 +21,7 @@ async def allocate_donations(session: AsyncSession):
         select(
             Donation
         ).where(
-            Donation.fully_invested is False
+            Donation.fully_invested == False
         ).order_by(
             Donation.create_date
         )

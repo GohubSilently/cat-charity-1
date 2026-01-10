@@ -35,4 +35,4 @@ class CharityProjectUpdate(CharityProjectCreate):
         min_length=10,
         default=None
     )
-    full_amount: Optional[str] = Field(gt=0, default=1)
+    full_amount: Optional[int] = Field(gt=0, default=1)
