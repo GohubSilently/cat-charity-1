@@ -27,7 +27,8 @@ async def check_full_amount(
     if update_amount < charity_project.invested_amount:
         raise HTTPException(
             status_code=HTTPStatus.BAD_REQUEST,
-            detail='Нельзя установить значение full_amount меньше уже вложенной суммы.'
+            detail='Нельзя установить значение full_amount меньше '
+                   'уже вложенной суммы.'
         )
     return charity_project
 
