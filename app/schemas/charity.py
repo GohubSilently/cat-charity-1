@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Optional
 
 from pydantic import BaseModel, Field, ConfigDict
 
@@ -21,17 +22,17 @@ class CharityProjectDB(CharityProjectCreate):
     invested_amount: int
     fully_invested: bool
     create_date: datetime
-    close_date: datetime | None = None
+    close_date: Optional[datetime] = None
 
 
 class CharityProjectUpdate(CharityProjectCreate):
-    name: str | None = Field(
+    name: Optional[str]  = Field(
         min_length=5,
         max_length=100,
         default=None
     )
-    description: str | None = Field(
+    description: Optional[str]  = Field(
         min_length=10,
         default=None
     )
-    full_amount: int | None = Field(gt=0, default=1)
+    full_amount: Optional[str]  = Field(gt=0, default=1)
