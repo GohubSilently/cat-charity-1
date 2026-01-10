@@ -26,13 +26,13 @@ class CharityProjectDB(CharityProjectCreate):
 
 
 class CharityProjectUpdate(CharityProjectCreate):
-    name: Optional[str]  = Field(
+    name: Optional[str] = Field(
         min_length=5,
         max_length=100,
         default=None
     )
-    description: Optional[str]  = Field(
+    description: Optional[str] = Field(
         min_length=10,
         default=None
     )
-    full_amount: Optional[str]  = Field(gt=0, default=1)
+    full_amount: Optional[str] = Field(gt=0, default=1)
