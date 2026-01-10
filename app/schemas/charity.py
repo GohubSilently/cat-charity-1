@@ -34,4 +34,4 @@ class CharityProjectUpdate(CharityProjectCreate):
         min_length=10,
         default=None
     )
-    full_amount: int | None = Field(gt=0, default=None)
+    full_amount: int | None = Field(gt=0, default=1)

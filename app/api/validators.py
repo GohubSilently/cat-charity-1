@@ -10,8 +10,7 @@ async def check_unique_name(
     name: str,
     session: AsyncSession
 ):
-    charity_project = await charity_crud.get_name(name, session)
-    if charity_project is not None:
+    if charity_project := await charity_crud.get_name(name, session):
         raise HTTPException(
             status_code=HTTPStatus.BAD_REQUEST,
             detail='Проект с таким именем уже существует!'
@@ -20,18 +19,17 @@ async def check_unique_name(
 
 
 async def check_full_amount(
-    charity_project_id: int,
-    full_amount: int,
+    charity_id: int,
+    update_amount: int,
     session: AsyncSession
 ):
-    charity_project = await check_charity_project_exists(charity_project_id, session)
-    if full_amount >  charity_project.full_amount:
+    charity_project = await charity_crud.get(charity_id, session)
+    if update_amount < charity_project.invested_amount:
         raise HTTPException(
             status_code=HTTPStatus.BAD_REQUEST,
-            detail='Нельзя установить значение full_amount мнеьше уже вложенной суммы.'
+            detail='Нельзя установить значение full_amount меньше уже вложенной суммы.'
         )
     return charity_project
-
 
 
 async def check_charity_project_exists(

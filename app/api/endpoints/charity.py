@@ -1,3 +1,4 @@
+from datetime import datetime
 from http import HTTPStatus
 from typing import Annotated
 
@@ -45,7 +46,7 @@ async def create_charity_project(
 
 
 @router.patch(
-    '/{project_id}/',
+    '/{project_id}',
     response_model=CharityProjectDB,
     description='Редактировать целевой проект.',
     response_model_exclude_none=True
@@ -55,12 +56,17 @@ async def update_charity_project(
     charity_project: CharityProjectUpdate,
     session: SessionDep,
 ):
-    charity = await check_full_amount(project_id, charity_project.full_amount, session)
+    charity = await check_charity_project_exists(project_id, session)
+    await check_unique_name(charity_project.name, session)
     if charity.fully_invested is True:
         raise HTTPException(
             status_code=HTTPStatus.BAD_REQUEST,
             detail='Закрытый проект нельзя удалить!'
         )
+    charity = await check_full_amount(charity.id, charity_project.full_amount, session)
+    if charity.invested_amount == charity_project.full_amount:
+        charity.fully_invested = True
+        charity.close_date = datetime.now()
     return await charity_crud.update(charity, charity_project, session)
 
 
