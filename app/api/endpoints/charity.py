@@ -63,7 +63,9 @@ async def update_charity_project(
             status_code=HTTPStatus.BAD_REQUEST,
             detail='Закрытый проект нельзя удалить!'
         )
-    charity = await check_full_amount(charity.id, charity_project.full_amount, session)
+    charity = await check_full_amount(
+        charity.id, charity_project.full_amount, session
+    )
     if charity.invested_amount == charity_project.full_amount:
         charity.fully_invested = True
         charity.close_date = datetime.now()
