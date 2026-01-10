@@ -10,7 +10,9 @@ class CRUDBase:
         self.model = model
 
     async def get(self, object_id: int, session: AsyncSession):
-        db_object = await session.execute(select(self.model).where(self.model.id == object_id))
+        db_object = await session.execute(select(self.model).where(
+            self.model.id == object_id)
+        )
         return db_object.scalars().first()
 
     async def create(self, object, session: AsyncSession):

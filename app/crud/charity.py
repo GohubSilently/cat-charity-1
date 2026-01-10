@@ -11,7 +11,9 @@ class CRUDCharity(CRUDBase):
         name: str,
         session: AsyncSession
     ):
-        db_object = await session.execute(select(self.model).where(self.model.name == name))
+        db_object = await session.execute(select(self.model).where(
+            self.model.name == name)
+        )
         return db_object.scalars().first()
 
     async def get_charity(
