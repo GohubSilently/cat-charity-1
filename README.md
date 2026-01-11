@@ -1,7 +1,7 @@
-# Cat Charity - API сервис управления благотворительными проектами и пожертвованиями
+# Cat Charity - API сервис управления благотворительными проектами и пожертвованиями.
 
-[![Python](https://img.shields.io/badge/-Python-3771a1?style=flat&logo=Python&logoColor=ffffff)](https://www.python.org/)  
-[![FastAPI](https://img.shields.io/badge/-FastAPI-009688?style=flat&logo=FastAPI&logoColor=ffffff)](https://fastapi.tiangolo.com/)  
+[![Python](https://img.shields.io/badge/-Python-3771a1?style=flat&logo=Python&logoColor=ffffff)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/-FastAPI-009688?style=flat&logo=FastAPI&logoColor=ffffff)](https://fastapi.tiangolo.com/)
 [![SQLAlchemy](https://img.shields.io/badge/-SQLAlchemy-blue?style=flat&logo=sqlalchemy&logoColor=ffffff)](https://www.sqlalchemy.org/)  
 
 Автор – [Халин Вадим](https://t.me/gohub1)
@@ -40,7 +40,7 @@ Cat Charity — API сервис для управления благотвор�
 ## Запуск проекта
 1. Клонируем репозиторий.
 ```
-git clone git@github.com:GohubSilently/cat-charity-1.git && cd cat-charity-1
+git clone git@github.com:GohubSilently/cat-charity-1.git && cd cat_charity
 ```
 
 2. Установливаем зависимости.
