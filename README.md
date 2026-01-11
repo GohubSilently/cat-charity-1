@@ -40,7 +40,7 @@ Cat Charity — API сервис для управления благотвор�
 ## Запуск проекта
 1. Клонируем репозиторий.
 ```
-git clone git@github.com:GohubSilently/cat-charity-1.git && cd cat-charity-1
+git clone git@github.com:GohubSilently/cat-charity-1.git && cd cat_charity
 ```
 
 2. Установливаем зависимости.
