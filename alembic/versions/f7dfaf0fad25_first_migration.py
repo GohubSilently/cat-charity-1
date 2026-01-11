@@ -1,8 +1,8 @@
 """First migration
 
-Revision ID: 6a265a23ad84
+Revision ID: f7dfaf0fad25
 Revises: 
-Create Date: 2026-01-11 13:28:51.438086
+Create Date: 2026-01-11 21:31:50.116874
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '6a265a23ad84'
+revision = 'f7dfaf0fad25'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -21,23 +21,25 @@ def upgrade():
     op.create_table('charityproject',
     sa.Column('name', sa.String(length=100), nullable=False),
     sa.Column('description', sa.String(), nullable=False),
-    sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('full_amount', sa.Integer(), nullable=False),
     sa.Column('invested_amount', sa.Integer(), nullable=False),
     sa.Column('fully_invested', sa.Boolean(), nullable=False),
     sa.Column('create_date', sa.DateTime(), nullable=False),
     sa.Column('close_date', sa.DateTime(), nullable=True),
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.CheckConstraint('full_amount > 0'),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('name')
     )
     op.create_table('donation',
     sa.Column('comment', sa.String(), nullable=True),
-    sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('full_amount', sa.Integer(), nullable=False),
     sa.Column('invested_amount', sa.Integer(), nullable=False),
     sa.Column('fully_invested', sa.Boolean(), nullable=False),
     sa.Column('create_date', sa.DateTime(), nullable=False),
     sa.Column('close_date', sa.DateTime(), nullable=True),
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.CheckConstraint('full_amount > 0'),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###

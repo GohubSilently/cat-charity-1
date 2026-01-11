@@ -1,20 +1,24 @@
 from datetime import datetime
 
-from sqlalchemy import Integer, Boolean, DateTime
-from sqlalchemy.orm import Mapped, mapped_column, declared_attr
+from sqlalchemy import Integer, Boolean, DateTime, CheckConstraint
+from sqlalchemy.orm import Mapped, mapped_column
+
+from app.core.db import Base
 
 
-class BaseMixin:
+class FundMixin(Base):
+    __abstract__ = True
 
-    @declared_attr
-    def __tablename__(cls):
-        return cls.__name__.lower()
-
-    id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    full_amount: Mapped[int] = mapped_column(Integer)
-    invested_amount: Mapped[int] = mapped_column(Integer, default=0)
+    full_amount: Mapped[int] = mapped_column(Integer, nullable=False)
+    invested_amount: Mapped[int] = mapped_column(
+        Integer, default=0, nullable=False
+    )
     fully_invested: Mapped[bool] = mapped_column(Boolean, default=False)
     create_date: Mapped[datetime] = mapped_column(
         DateTime, default=datetime.now
     )
     close_date: Mapped[datetime] = mapped_column(DateTime, nullable=True)
+
+    __table_args__ = (
+        CheckConstraint('full_amount > 0'),
+    )

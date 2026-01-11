@@ -39,8 +39,8 @@ async def create_donation(
     session: SessionDep,
 ):
     donation = await donation_crud.create(donation, session, commit=False)
-    charity_projects = await charity_crud.get_not_fully_invested(session)
-    allocate(donation, charity_projects)
+    session.add(donation)
+    allocate(donation, await charity_crud.get_not_fully_invested(session))
     await session.commit()
     await session.refresh(donation)
     return donation
