@@ -1,4 +1,4 @@
-# Cat Charity - API сервис управления благотворительными проектами и пожертвованиями.
+# Cat Charity - API сервис управления благотворительными проектами и пожертвованиями на базе фреймворка FastAPI.
 
 [![Python](https://img.shields.io/badge/-Python-3771a1?style=flat&logo=Python&logoColor=ffffff)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/-FastAPI-009688?style=flat&logo=FastAPI&logoColor=ffffff)](https://fastapi.tiangolo.com/)
