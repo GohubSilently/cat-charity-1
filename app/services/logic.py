@@ -9,7 +9,8 @@ def allocate(
     sources: List[Union[CharityProject, Donation]],
 ) -> List[Union[CharityProject, Donation]]:
     for source in sources:
-        # Для тестов. Они передают None, в БД сделал так чтобы None не могло быть.
+        # Для тестов. Они передают None, в БД сделал так
+        # чтобы None не могло быть.
         if target.invested_amount is None:
             target.invested_amount = 0
         remainder = min(
