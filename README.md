@@ -1,7 +1,7 @@
 # Cat Charity - API сервис управления благотворительными проектами и пожертвованиями.
 
-[![Python](https://img.shields.io/badge/-Python-3771a1?style=flat&logo=Python&logoColor=ffffff)](https://www.python.org/)  
-[![FastAPI](https://img.shields.io/badge/-FastAPI-009688?style=flat&logo=FastAPI&logoColor=ffffff)](https://fastapi.tiangolo.com/)  
+[![Python](https://img.shields.io/badge/-Python-3771a1?style=flat&logo=Python&logoColor=ffffff)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/-FastAPI-009688?style=flat&logo=FastAPI&logoColor=ffffff)](https://fastapi.tiangolo.com/)
 [![SQLAlchemy](https://img.shields.io/badge/-SQLAlchemy-blue?style=flat&logo=sqlalchemy&logoColor=ffffff)](https://www.sqlalchemy.org/)  
 
 Автор – [Халин Вадим](https://t.me/gohub1)
