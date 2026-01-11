@@ -1,15 +1,17 @@
 from datetime import datetime
-from http import HTTPStatus
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api.validators import (
-    check_charity_project_exists, check_unique_name, check_full_amount
+    check_charity_project_exists, check_unique_name, check_full_amount,
+    check_fully_invested_amount, check_invested_amount
 )
 from app.core.db import get_async_session
 from app.crud.charity import charity_crud
+from app.crud.donation import donation_crud
+from app.services.logic import allocate
 from app.schemas.charity import (
     CharityProjectCreate, CharityProjectDB, CharityProjectUpdate
 )
@@ -42,13 +44,26 @@ async def create_charity_project(
     session: SessionDep
 ):
     await check_unique_name(charity_project.name, session)
-    return await charity_crud.create(charity_project, session)
+    charity_project = await charity_crud.create(
+        charity_project, session, commit=False
+    )
+
+    donations = await donation_crud.get_not_fully_invested(session)
+    print(charity_project.invested_amount)
+    for donation in donations:
+        print(donation.invested_amount)
+    allocate(charity_project, donations)
+    await session.commit()
+    await session.refresh(charity_project)
+    return charity_project
 
 
 @router.patch(
     '/{project_id}',
     response_model=CharityProjectDB,
-    description='Редактировать целевой проект.',
+    description='Редактировать целевой проект. '
+                'Закрытый проект нельзя редактировать; нельзя установить '
+                'требуемую сумму меньше уже вложенной.',
     response_model_exclude_none=True
 )
 async def update_charity_project(
@@ -58,11 +73,7 @@ async def update_charity_project(
 ):
     charity = await check_charity_project_exists(project_id, session)
     await check_unique_name(charity_project.name, session)
-    if charity.fully_invested is True:
-        raise HTTPException(
-            status_code=HTTPStatus.BAD_REQUEST,
-            detail='Закрытый проект нельзя удалить!'
-        )
+    await check_fully_invested_amount(charity.fully_invested)
     charity = await check_full_amount(
         charity.id, charity_project.full_amount, session
     )
@@ -75,7 +86,9 @@ async def update_charity_project(
 @router.delete(
     '/{project_id}',
     response_model=CharityProjectDB,
-    description='Удалить целевой проект.',
+    description='Удалить целевой проект. '
+                'Нельзя удалить проект, в который уже '
+                'были инвестированы средства.',
     response_model_exclude_none=True
 )
 async def delete_charity_project(
@@ -83,9 +96,5 @@ async def delete_charity_project(
     session: SessionDep
 ):
     charity_project = await check_charity_project_exists(project_id, session)
-    if charity_project.invested_amount > 0:
-        raise HTTPException(
-            status_code=HTTPStatus.BAD_REQUEST,
-            detail='В проект были внесены средства, не подлежит удалению!'
-        )
+    await check_invested_amount(charity_project.invested_amount)
     return await charity_crud.remove(charity_project, session)

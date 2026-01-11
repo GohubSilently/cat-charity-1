@@ -44,3 +44,23 @@ async def check_charity_project_exists(
             detail='Благотворительного проекта не существует!',
         )
     return charity_project
+
+
+async def check_fully_invested_amount(
+    fully_invested: bool
+):
+    if fully_invested:
+        raise HTTPException(
+            status_code=HTTPStatus.BAD_REQUEST,
+            detail='Закрытый проект нельзя редактировать!'
+        )
+
+
+async def check_invested_amount(
+    invested_amount: int
+):
+    if invested_amount > 0:
+        raise HTTPException(
+            status_code=HTTPStatus.BAD_REQUEST,
+            detail='В проект были внесены средства, не подлежит удалению!'
+        )

@@ -2,27 +2,33 @@ from fastapi.encoders import jsonable_encoder
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.services.logic import allocate_donations
-
 
 class CRUDBase:
     def __init__(self, model):
         self.model = model
 
     async def get(self, object_id: int, session: AsyncSession):
-        db_object = await session.execute(select(self.model).where(
+        return (await session.execute(select(self.model).where(
             self.model.id == object_id)
-        )
-        return db_object.scalars().first()
+        )).scalars().first()
 
-    async def create(self, object, session: AsyncSession):
+    async def get_all(self, session: AsyncSession):
+        return (await session.execute(select(self.model))).scalars().all()
+
+    async def get_not_fully_invested(self, session: AsyncSession):
+        return (await session.execute(select(self.model).where(
+            self.model.fully_invested.is_(False)
+        ).order_by(
+            self.model.create_date
+        ))).scalars().all()
+
+    async def create(self, object, session: AsyncSession, commit: bool = True):
         object_data = object.dict()
         db_object = self.model(**object_data)
         session.add(db_object)
-        await session.commit()
-        await session.refresh(db_object)
-        await allocate_donations(session)
-        await session.commit()
+        if commit:
+            await session.commit()
+            await session.refresh(db_object)
         return db_object
 
     async def update(self, db_object, object_in, session: AsyncSession):
@@ -35,10 +41,6 @@ class CRUDBase:
         await session.commit()
         await session.refresh(db_object)
         return db_object
-
-    async def get_all(self, session: AsyncSession):
-        objects = await session.execute(select(self.model))
-        return objects.scalars().all()
 
     async def remove(self, object, session: AsyncSession):
         await session.delete(object)
