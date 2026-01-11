@@ -46,7 +46,7 @@ async def check_charity_project_exists(
     return charity_project
 
 
-async def check_fully_invested_amount(
+def check_fully_invested_amount(
     fully_invested: bool
 ):
     if fully_invested:
@@ -56,7 +56,7 @@ async def check_fully_invested_amount(
         )
 
 
-async def check_invested_amount(
+def check_invested_amount(
     invested_amount: int
 ):
     if invested_amount > 0:

@@ -40,7 +40,7 @@ Cat Charity — API сервис для управления благотвор�
 ## Запуск проекта
 1. Клонируем репозиторий.
 ```
-git clone git@github.com:GohubSilently/cat-charity-1.git && cd cat_charity
+git clone git@github.com:GohubSilently/cat_charity.git && cd cat_charity
 ```
 
 2. Установливаем зависимости.
@@ -59,7 +59,6 @@ DATABASE_URL=sqlite+aiosqlite:///./charity_fund.db
 
 4. Запускаем миграции
 ```
-alembic init
 alembic upgrade head
 ```
 
@@ -68,6 +67,8 @@ alembic upgrade head
 uvicorn app.main:app --reload
 ```
 
-6.  Документация будет доступна по этому адресу [API](http://127.0.0.1:8000/docs)
+6.  Документация доступна:
+- [Swagger UI](http://127.0.0.1:8000/docs)
+- [ReDoc](http://127.0.0.1:8000/redoc)
 
 ---

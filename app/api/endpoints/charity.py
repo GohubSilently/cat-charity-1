@@ -47,9 +47,10 @@ async def create_charity_project(
     charity_project = await charity_crud.create(
         charity_project, session, commit=False
     )
-
-    donations = await donation_crud.get_not_fully_invested(session)
-    allocate(charity_project, donations)
+    session.add(charity_project)
+    allocate(
+        charity_project, await donation_crud.get_not_fully_invested(session)
+    )
     await session.commit()
     await session.refresh(charity_project)
     return charity_project
@@ -70,7 +71,7 @@ async def update_charity_project(
 ):
     charity = await check_charity_project_exists(project_id, session)
     await check_unique_name(charity_project.name, session)
-    await check_fully_invested_amount(charity.fully_invested)
+    check_fully_invested_amount(charity.fully_invested)
     charity = await check_full_amount(
         charity.id, charity_project.full_amount, session
     )
@@ -93,5 +94,5 @@ async def delete_charity_project(
     session: SessionDep
 ):
     charity_project = await check_charity_project_exists(project_id, session)
-    await check_invested_amount(charity_project.invested_amount)
+    check_invested_amount(charity_project.invested_amount)
     return await charity_crud.remove(charity_project, session)
