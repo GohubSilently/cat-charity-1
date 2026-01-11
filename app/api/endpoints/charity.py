@@ -49,9 +49,6 @@ async def create_charity_project(
     )
 
     donations = await donation_crud.get_not_fully_invested(session)
-    print(charity_project.invested_amount)
-    for donation in donations:
-        print(donation.invested_amount)
     allocate(charity_project, donations)
     await session.commit()
     await session.refresh(charity_project)
