@@ -16,9 +16,8 @@ def allocate(
         for obj in (target, source):
             if obj.invested_amount == obj.full_amount:
                 obj.close_fund()
-        source if source not in update_sources else update_sources.append(
-            source
-        )
+        if source not in update_sources:
+            update_sources.append(source)
         if target.fully_invested:
             break
     return update_sources
