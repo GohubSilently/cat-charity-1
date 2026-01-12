@@ -26,6 +26,7 @@ class CRUDBase:
         object_data = object.dict()
         db_object = self.model(**object_data)
         if commit:
+            session.add(db_object)
             await session.commit()
             await session.refresh(db_object)
         return db_object
