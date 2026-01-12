@@ -1,26 +1,24 @@
-from datetime import datetime
-
-from app.models import Fund
+from app.models import InvestmentInformation
 
 
 def allocate(
-    target: Fund,
-    sources: list[Fund],
-) -> list[Fund]:
-    update_source = []
+    target: InvestmentInformation,
+    sources: list[InvestmentInformation],
+) -> list[InvestmentInformation]:
+    update_sources = []
     for source in sources:
         remainder = min(
             source.full_amount - source.invested_amount,
             target.full_amount - target.invested_amount
         )
-
+        target.invested_amount += remainder
+        source.invested_amount += remainder
         for obj in (target, source):
-            obj.invested_amount += remainder
-            update_source.append(obj)
             if obj.invested_amount == obj.full_amount:
-                obj.fully_invested = True
-                obj.close_date = datetime.now()
-
+                obj.close_fund()
+        source if source not in update_sources else update_sources.append(
+            source
+        )
         if target.fully_invested:
             break
-    return update_source
+    return update_sources

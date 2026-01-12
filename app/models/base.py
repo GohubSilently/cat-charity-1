@@ -6,7 +6,7 @@ from sqlalchemy.orm import Mapped, mapped_column
 from app.core.db import Base
 
 
-class Fund(Base):
+class InvestmentInformation(Base):
     __abstract__ = True
 
     full_amount: Mapped[int] = mapped_column(Integer, nullable=False)
@@ -22,13 +22,21 @@ class Fund(Base):
     __table_args__ = (
         CheckConstraint('full_amount > 0'),
         CheckConstraint('invested_amount >= 0'),
+        CheckConstraint('invested_amount <= full_amount'),
     )
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        if self.invested_amount is None:
-            self.invested_amount = 0
+        self.invested_amount = 0
 
     def __repr__(self) -> str:
-        base = super().__repr__()
-        return f'{base}, create_date{self.create_date}'
+        return (f'{super().__repr__()}\n'
+                f'full_amount={self.full_amount}\n'
+                f'invested_amount={self.invested_amount}\n'
+                f'fully_invested={self.fully_invested}\n'
+                f'create_date={self.create_date}\n'
+                f'close_date={self.close_date}')
+
+    def close_fund(self):
+        self.fully_invested = True
+        self.close_date = datetime.now()

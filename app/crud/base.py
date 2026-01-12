@@ -25,8 +25,8 @@ class CRUDBase:
     async def create(self, object, session: AsyncSession, commit: bool = True):
         object_data = object.dict()
         db_object = self.model(**object_data)
+        session.add(db_object)
         if commit:
-            session.add(db_object)
             await session.commit()
             await session.refresh(db_object)
         return db_object
