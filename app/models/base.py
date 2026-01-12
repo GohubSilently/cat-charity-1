@@ -30,7 +30,7 @@ class InvestmentInformation(Base):
         self.invested_amount = 0
 
     def __repr__(self) -> str:
-        return (f'{super().__repr__()}\n'
+        return (super().__repr__() +
                 f'full_amount={self.full_amount}\n'
                 f'invested_amount={self.invested_amount}\n'
                 f'fully_invested={self.fully_invested}\n'
