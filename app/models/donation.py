@@ -1,12 +1,11 @@
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column
 
-from app.models.base import Fund
+from app.models.base import InvestmentInformation
 
 
-class Donation(Fund):
+class Donation(InvestmentInformation):
     comment: Mapped[str] = mapped_column(String, nullable=True)
 
     def __repr__(self) -> str:
-        base = super().__repr__()
-        return f'{base}, id={self.id}, comment={self.comment}'
+        return f'{super().__repr__()}, comment={self.comment}'
