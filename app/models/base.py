@@ -21,8 +21,9 @@ class InvestmentInformation(Base):
 
     __table_args__ = (
         CheckConstraint('full_amount > 0'),
-        CheckConstraint('invested_amount >= 0'),
-        CheckConstraint('invested_amount <= full_amount'),
+        CheckConstraint(
+            '(invested_amount >= 0) AND (invested_amount <= full_amount)'
+        ),
     )
 
     def __init__(self, **kwargs):
@@ -30,7 +31,7 @@ class InvestmentInformation(Base):
         self.invested_amount = 0
 
     def __repr__(self) -> str:
-        return (super().__repr__() +
+        return (f'{super().__repr__()}\n'
                 f'full_amount={self.full_amount}\n'
                 f'invested_amount={self.invested_amount}\n'
                 f'fully_invested={self.fully_invested}\n'
@@ -38,5 +39,6 @@ class InvestmentInformation(Base):
                 f'close_date={self.close_date}')
 
     def close_fund(self):
-        self.fully_invested = True
-        self.close_date = datetime.now()
+        if self.invested_amount == self.full_amount:
+            self.fully_invested = True
+            self.close_date = datetime.now()
