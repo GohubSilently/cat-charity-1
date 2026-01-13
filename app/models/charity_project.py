@@ -9,4 +9,4 @@ class CharityProject(InvestmentInformation):
     description: Mapped[str] = mapped_column(String)
 
     def __repr__(self) -> str:
-        return f'{super().__repr__()}, name={self.name}'
+        return f'{super().__repr__()}, name={self.name}'  # noqa: FCS100
