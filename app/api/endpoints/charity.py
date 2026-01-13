@@ -47,11 +47,9 @@ async def create_charity_project(
     charity_project = await charity_crud.create(
         charity_project, session, commit=False
     )
-    update_sources = allocate(
+    session.add_all(allocate(
         charity_project, await donation_crud.get_not_fully_invested(session)
-    )
-    for donation in update_sources:
-        session.add(donation)
+    ))
     await session.commit()
     await session.refresh(charity_project)
     return charity_project
