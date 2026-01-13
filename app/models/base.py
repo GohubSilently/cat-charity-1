@@ -22,7 +22,7 @@ class InvestmentInformation(Base):
     __table_args__ = (
         CheckConstraint('full_amount > 0'),
         CheckConstraint(
-            '(invested_amount >= 0) AND (invested_amount <= full_amount)'
+            'invested_amount BETWEEN 0 AND full_amount',
         ),
     )
 

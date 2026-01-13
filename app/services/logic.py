@@ -7,6 +7,7 @@ def allocate(
 ) -> list[InvestmentInformation]:
     update_sources = []
     for source in sources:
+        update_sources.append(source)
         remainder = min(
             source.full_amount - source.invested_amount,
             target.full_amount - target.invested_amount
@@ -14,8 +15,6 @@ def allocate(
         for object in (target, source):
             object.invested_amount += remainder
             object.close_fund()
-            if object is source and source not in update_sources:
-                update_sources.append(source)
         if target.fully_invested:
             break
     return update_sources
